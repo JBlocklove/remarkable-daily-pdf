@@ -1,6 +1,6 @@
 #!/bin/sh
 
-month=`date +%b%y`
+month=`date +%b%Y`
 today=`date +%b%d%y`
 xochitl_loc="$HOME/.local/share/remarkable/xochitl"
 

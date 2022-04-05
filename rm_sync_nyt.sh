@@ -18,6 +18,7 @@ download_crossword() {
 	if [[ -z $month_dir_uuid ]]; then
 		create_dir_metadata "$crossword_dir_uuid" "$month"
 		month_dir_uuid=$dir_uuid
+		create_dir_content "$month_dir_uuid"
 	fi
 
 	create_doc_metadata $crossword_uuid $month_dir_uuid $today
@@ -29,6 +30,11 @@ create_dir_metadata() {
 	dir_uuid=`cat /proc/sys/kernel/random/uuid`
 	cp dir_metadata.txt $xochitl_loc/$dir_uuid.metadata
 	sed -i -e "s/PARENT_NAME/$1/" -e "s/DIR_NAME/$2/" $xochitl_loc/$dir_uuid.metadata
+}
+
+create_dir_content() {
+	#creates for new directory $1
+	echo "{}" > $xochitl_loc/$1.content
 }
 
 create_doc_metadata() {
