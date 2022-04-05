@@ -2,7 +2,7 @@
 
 crossword_uuid=`cat /proc/sys/kernel/random/uuid`
 xochitl_loc="$HOME/.local/share/remarkable/xochitl"
-month=`date +%b%y`
+month=`date +%b%Y`
 today=`date +%b%d%y`
 
 download_crossword() {
@@ -55,8 +55,8 @@ find_uuids() {
 			crossword_dir_uuid=`basename $filename .metadata`
 		elif [[ $doc_name == $month && $doc_type == "CollectionType" ]]; then
 			month_dir_uuid=`basename $filename .metadata`
-		#elif [[ $doc_name == $today && $doc_type == "DocumentType" ]]; then #script is done if we find this
-			#exit 1
+		elif [[ $doc_name == $today && $doc_type == "DocumentType" ]]; then #script is done if we find this
+			exit 1
 		fi
 	done
 }
