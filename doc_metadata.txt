@@ -1,0 +1,14 @@
+{
+    "deleted": false,
+    "lastModified": "MOD_TIME",
+    "lastOpened": "MOD_TIME",
+    "lastOpenedPage": 0,
+    "metadatamodified": false,
+    "modified": false,
+    "parent": "PARENT_NAME",
+    "pinned": false,
+    "synced": false,
+    "type": "DocumentType",
+    "version": 2,
+    "visibleName": "DOC_NAME"
+}

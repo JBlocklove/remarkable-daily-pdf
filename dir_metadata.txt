@@ -1,0 +1,12 @@
+{
+    "deleted": false,
+    "lastModified": null,
+    "metadatamodified": true,
+    "modified": true,
+    "parent": "PARENT_NAME",
+    "pinned": false,
+    "synced": false,
+    "type": "CollectionType",
+    "version": 1,
+    "visibleName": "DIR_NAME"
+}

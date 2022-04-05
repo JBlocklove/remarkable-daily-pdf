@@ -1,0 +1,37 @@
+{
+    "coverPageNumber": -1,
+    "documentMetadata": {
+    },
+    "dummyDocument": false,
+    "extraMetadata": {
+    },
+    "fileType": "pdf",
+    "fontName": "",
+    "formatVersion": 1,
+    "lastOpenedPage": 0,
+    "legacyEpub": false,
+    "lineHeight": -1,
+    "margins": 100,
+    "orientation": "portrait",
+    "originalPageCount": -1,
+    "pageCount": 1,
+    "pages": [
+        "PAGE_UUID"
+    ],
+    "redirectionPageMap": [
+    ],
+    "sizeInBytes": "SIZE_IN_BYTES",
+    "textAlignment": "justify",
+    "textScale": 1,
+    "transform": {
+        "m11": 1,
+        "m12": 0,
+        "m13": 0,
+        "m21": 0,
+        "m22": 1,
+        "m23": 0,
+        "m31": 0,
+        "m32": 0,
+        "m33": 1
+    }
+}
