@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source functions
+source ./functions
 
 month=`date +%b%Y`
 today=`date +%b%d%y`
@@ -9,7 +9,7 @@ download_crossword() {
 	#downloads today's nyt crossword
 	local today=$1
 	local crossword_url="http://www.nytimes.com/svc/crosswords/v2/puzzle/print/$today.pdf"
-	local nyt_cookies=`cat $source_locations/nyt-cookies.txt`
+	local nyt_cookies=`cat ./nyt-cookies.txt`
 
 	new_uuid crossword_uuid
 
