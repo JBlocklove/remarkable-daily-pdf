@@ -1,0 +1,9 @@
+[Unit]
+Description=Grab NYT crossword once per day
+
+[Timer]
+OnCalendar=daily
+Persistent=true
+
+[Install]
+WantedBy=timers.target

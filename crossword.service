@@ -1,0 +1,8 @@
+[Unit]
+Description=Run script to grab today's NYT crossword when establishing an internet connection
+Wants=network-online.target
+After=network-online.target
+
+[Service]
+Type=exec
+ExecStart=/home/root/rm_sync_nyt.sh /home/root

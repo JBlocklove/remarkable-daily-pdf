@@ -1,7 +1,7 @@
 #!/bin/sh
 
 crossword_uuid=`cat /proc/sys/kernel/random/uuid`
-xochitl_loc="$HOME/.local/share/remarkable/xochitl"
+xochitl_loc="/home/root/.local/share/remarkable/xochitl"
 month=`date +%b%Y`
 today=`date +%b%d%y`
 
