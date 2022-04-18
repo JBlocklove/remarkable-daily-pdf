@@ -16,10 +16,6 @@ function create_dir_content() {
 function create_doc_metadata() {
 	#creates metadata and pagedata files for pdf $1 under parent $2 with visible name $3 in directory $4
 	mod_time=`date +%s`
-	echo "UUID: $1"
-	echo "PARENT: $2"
-	echo "NAME: $3"
-	echo "DIR: $4"
 	cp -v doc_metadata.txt $4/$1.metadata
 	sed -i -e "s/PARENT_NAME/$2/" -e "s/DOC_NAME/$3/" -e "s/MOD_TIME/$mod_time/" $4/$1.metadata
 }

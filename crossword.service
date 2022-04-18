@@ -5,4 +5,4 @@ After=network-online.target
 
 [Service]
 Type=exec
-ExecStart=/home/root/rm_sync_nyt.sh /home/root
+ExecStart=/home/root/remarkable-daily-pdf/rm-sync-nyt /home/root/remarkable-daily-pdf
