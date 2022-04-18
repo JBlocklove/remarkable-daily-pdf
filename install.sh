@@ -1,6 +1,6 @@
 #!/bin/sh
 
-wget -qO- https://github.com/JBlocklove/remarkable-daily-pdf/archive/main.zip -O /home/root/remarkable-daily-pdf | unzip -
+wget -qO- https://github.com/JBlocklove/remarkable-daily-pdf/archive/dev.zip -O /home/root/remarkable-daily-pdf.zip | unzip -
 
 read -e -p "Do you want this to run automatically every day? [y/N] " auto
 if [[ $auto == y ]]; then
