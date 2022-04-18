@@ -2,7 +2,7 @@
 Description=Grab NYT crossword once per day
 
 [Timer]
-OnCalendar=daily
+OnCalendar=*-*-* 2:00:00
 Persistent=true
 
 [Install]
