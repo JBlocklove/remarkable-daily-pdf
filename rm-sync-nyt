@@ -1,8 +1,6 @@
 #!/bin/sh
 
-source_locations=$1
-
-source $source_locations/functions
+source functions
 
 month=`date +%b%Y`
 today=`date +%b%d%y`

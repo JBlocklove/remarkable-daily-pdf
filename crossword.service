@@ -4,5 +4,6 @@ Wants=network-online.target
 After=network-online.target
 
 [Service]
+WorkingDirectory=/home/root/remarkable-daily-pdf
 Type=exec
-ExecStart=/home/root/remarkable-daily-pdf/rm-sync-nyt /home/root/remarkable-daily-pdf
+ExecStart=/home/root/remarkable-daily-pdf/rm-sync-nyt
