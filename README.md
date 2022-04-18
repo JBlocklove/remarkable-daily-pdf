@@ -36,6 +36,7 @@ If you want this script to run every day, you can copy the `crossword.service` a
 ### To Do
  - [ ] Make scripts more generic so that a range of different sources can be used
     - [ ] Create a list of supported sources for easier use, especially focusing on free ones
+ - [ ] Figure out the NYT pdf naming structure for the non-newspaper print versions so you can get the puzzle without the previous day's answers
  - [ ] Improve this documentation
 
 ---
