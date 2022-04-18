@@ -1,9 +1,11 @@
 #!/bin/sh
 
-wget -qO- https://github.com/JBlocklove/remarkable-daily-pdf/archive/dev.zip -O /home/root/remarkable-daily-pdf.zip | unzip -
+wget -qO- https://github.com/JBlocklove/remarkable-daily-pdf/archive/dev.zip | unzip -
+mv remarkable-daily-pdf-dev remarkable-daily-pdf
 
-read -e -p "Do you want this to run automatically every day? [y/N] " auto
+echo -n "Do you want this to run automatically every day? [y/N]"
+read auto
 if [[ $auto == y ]]; then
-	cp crossword.service crossword.timer /etc/systemd/system/
+	cp -v crossword.service crossword.timer /etc/systemd/system/
 	systemctl enable crossword.timer
 fi
