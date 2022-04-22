@@ -1,5 +1,5 @@
 [Unit]
-Description=Grab NYT crossword once per day
+Description=Grab NYT crossword once per day, starting attempts after 2am
 
 [Timer]
 OnCalendar=*-*-* 2:00:00

@@ -1,0 +1,77 @@
+#!/bin/sh
+
+source ./functions
+
+month=`date +%b%Y`
+today=`date +%b%d%y`
+
+# Prints usage message
+function print_help() {
+	echo -e "Usage: rm-sync-pdf [OPTIONS]\n\tMandatory Options:\n\t\t-u: \t URL to pull pdf from.\n\t\t-n:\tName to give the downloaded pdf.\n\tOptional Options:\n\t\t-c:\tLocation of a cookie file. Necessary if authentication is required for the pdf.\n\t\t-d:\tDirectory on the remarkable to store the file under.\n\t\t\tIf any of the directories in the path don't exist they will be created.\n\t\t-h\tPrints this usage message and exits."
+	exit 2
+}
+
+download_pdf() {
+	#downloads the pdf requested by the -u flag
+
+	new_uuid pdf_uuid
+	if [[ $cookies ]]; then
+		wget $url \
+			--header="Cookie: $cookies" \
+			-O "$xochitl_loc/$pdf_uuid.pdf"
+	else
+		wget $url \
+			-O "$xochitl_loc/$pdf_uuid.pdf"
+	fi
+
+	if [[ $? != "0" ]]; then
+		exit 1
+	fi
+
+	if [[ $dir ]]; then
+		rm_mkdir $dir
+		find_uuid $dir "dir" dir_uuid
+		echo "Dir UUID: $dir_uuid"
+	fi
+
+	create_doc_metadata "$pdf_uuid" "$dir_uuid" "$name" "$xochitl_loc"
+	create_doc_content "$pdf_uuid" "$xochitl_loc"
+}
+
+while getopts 'u:c:n:d:h' flag; do
+	case "${flag}" in
+		u)
+			url="${OPTARG}" ;;
+		c)
+			cookie_file="${OPTARG}" ;;
+		d)
+			dir="${OPTARG}" ;;
+		n)
+			name="${OPTARG}" ;;
+		h)
+			print_help ;;
+		*)
+			echo "$1 is not an option"
+			print_help ;;
+	esac
+done
+
+if [[ $url == "" ]]; then
+	print_help
+fi
+
+if [[ $name ]]; then
+	find_uuid $name "doc" pdf_uuid
+fi
+
+if [[ $cookie_file ]]; then
+	cookies=`cat $cookie_file`
+fi
+
+if [[ $pdf_uuid == "" ]]; then
+	echo "Downaloading file"
+	download_pdf
+	systemctl restart xochitl.service
+else
+	exit 0
+fi

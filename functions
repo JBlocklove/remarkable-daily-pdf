@@ -33,11 +33,14 @@ function find_uuid() {
 
 	local  __resultvar=$3
 
+	local dir_arr=($(echo "$1" | sed -e 's|/|\n|g' | awk -F '\n' '{ print $1 }'))
+	local name="${dir_arr[-1]}"
+
 	if [[ $2 == "dir" ]]; then
 		for filename in $xochitl_loc/*.metadata ; do
 			doc_name=`sed -e 's/ //g' -e 's/\"//g' $filename | awk -F '[:,]' '{if ($1 == "visibleName") print $2;}'`
 			doc_type=`sed -e 's/ //g' -e 's/\"//g' $filename | awk -F '[:,]' '{if ($1 == "type") print $2;}'`
-			if [[ $doc_name == $1 && $doc_type == "CollectionType" ]]; then
+			if [[ $doc_name == $name && $doc_type == "CollectionType" ]]; then
 				local uuid=`basename $filename .metadata`
 			fi
 		done
@@ -45,7 +48,7 @@ function find_uuid() {
 		for filename in $xochitl_loc/*.metadata ; do
 			doc_name=`sed -e 's/ //g' -e 's/\"//g' $filename | awk -F '[:,]' '{if ($1 == "visibleName") print $2;}'`
 			doc_type=`sed -e 's/ //g' -e 's/\"//g' $filename | awk -F '[:,]' '{if ($1 == "type") print $2;}'`
-			if [[ $doc_name == $1 && $doc_type == "CollectionType" ]]; then
+			if [[ $doc_name == $name && $doc_type == "DocumentType" ]]; then
 				local uuid=`basename $filename .metadata`
 			fi
 		done
@@ -71,7 +74,7 @@ function new_uuid() {
 function rm_mkdir() {
 	local parent_uuid
 	local dir_uuid
-	dir_arr=($(echo "$1" | sed -e 's|/|\n|g' | awk -F '\n' '{ print $1 }'))
+	local dir_arr=($(echo "$1" | sed -e 's|/|\n|g' | awk -F '\n' '{ print $1 }'))
 	for ((i=0; i<${#dir_arr[@]}; i++)) ; do
 		if [[ $i != 0 ]]; then
 			parent=${dir_arr[$i-1]}
