@@ -31,7 +31,7 @@ function make_full_script() {
 	local filename="download-pdfs"
 	echo "#!/bin/sh" > $filename
 	for i do
-		echo "rm-sync-pdf "
+		echo "./rm-sync-pdf " >> $filename
 		echo -n $i >> $filename
 	done
 	chmod a+x $filename

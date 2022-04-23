@@ -5,7 +5,7 @@ xochitl_loc="/home/root/.local/share/remarkable/xochitl"
 function create_dir_metadata() {
 	#creates metadata for new directory under $1 with name $2 and uuid $3 in directory $4
 	cp dir_metadata.txt $4/$3.metadata
-	sed -i -e "s/PARENT_NAME/\"$1\"/" -e "s/DIR_NAME/\"$2\"/" $4/$3.metadata
+	sed -i -e "s|PARENT_UUID|\"$1\"|" -e "s|DIR_NAME|\"$2\"|" $4/$3.metadata
 }
 
 function create_dir_content() {
@@ -33,21 +33,22 @@ function find_uuid() {
 
 	local  __resultvar=$3
 
+    IFS=$'\n'
 	local dir_arr=($(echo "$1" | sed -e 's|/|\n|g' | awk -F '\n' '{ print $1 }'))
 	local name="${dir_arr[-1]}"
 
 	if [[ $2 == "dir" ]]; then
 		for filename in $xochitl_loc/*.metadata ; do
-			doc_name=`sed -e 's/ //g' -e 's/\"//g' $filename | awk -F '[:,]' '{if ($1 == "visibleName") print $2;}'`
-			doc_type=`sed -e 's/ //g' -e 's/\"//g' $filename | awk -F '[:,]' '{if ($1 == "type") print $2;}'`
+			doc_name=`sed -e 's/    //g' -e 's/\"//g' -e 's/: /:/g' $filename | awk -F '[:,]' '{if ($1 == "visibleName") print $2;}'`
+			doc_type=`sed -e 's/    //g' -e 's/\"//g' -e 's/: /:/g' $filename | awk -F '[:,]' '{if ($1 == "type") print $2;}'`
 			if [[ $doc_name == $name && $doc_type == "CollectionType" ]]; then
 				local uuid=`basename $filename .metadata`
 			fi
 		done
 	else
 		for filename in $xochitl_loc/*.metadata ; do
-			doc_name=`sed -e 's/ //g' -e 's/\"//g' $filename | awk -F '[:,]' '{if ($1 == "visibleName") print $2;}'`
-			doc_type=`sed -e 's/ //g' -e 's/\"//g' $filename | awk -F '[:,]' '{if ($1 == "type") print $2;}'`
+			doc_name=`sed -e 's/    //g' -e 's/\"//g' -e 's/: /:/g' $filename | awk -F '[:,]' '{if ($1 == "visibleName") print $2;}'`
+			doc_type=`sed -e 's/    //g' -e 's/\"//g' -e 's/: /:/g' $filename | awk -F '[:,]' '{if ($1 == "type") print $2;}'`
 			if [[ $doc_name == $name && $doc_type == "DocumentType" ]]; then
 				local uuid=`basename $filename .metadata`
 			fi
@@ -74,13 +75,12 @@ function new_uuid() {
 function rm_mkdir() {
 	local parent_uuid
 	local dir_uuid
-	local dir_arr=($(echo "$1" | sed -e 's|/|\n|g' | awk -F '\n' '{ print $1 }'))
+    IFS=$'\n'
+	dir_arr=($(echo "$1" | sed -e 's|/|\n|g' | awk -F '\n' -v q='"' '{ print $1 }'))
 	for ((i=0; i<${#dir_arr[@]}; i++)) ; do
 		if [[ $i != 0 ]]; then
 			parent=${dir_arr[$i-1]}
 			find_uuid $parent "dir" parent_uuid
-		#else
-			#parent_uuid='""'
 		fi
 		find_uuid ${dir_arr[$i]} "dir" dir_uuid
 		if [[ $dir_uuid == "" ]]; then
@@ -90,3 +90,4 @@ function rm_mkdir() {
 		fi
 	done
 }
+

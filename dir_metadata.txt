@@ -3,7 +3,7 @@
     "lastModified": null,
     "metadatamodified": true,
     "modified": true,
-    "parent": PARENT_NAME,
+    "parent": PARENT_UUID,
     "pinned": false,
     "synced": false,
     "type": "CollectionType",

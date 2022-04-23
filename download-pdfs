@@ -1,2 +1,2 @@
 #!/bin/sh
-rm-sync-pdf -u "https://www.nytimes.com/svc/crosswords/v2/puzzle/print/`date +%b%d%y`.pdf" -n "`date +%b %d`" -d "/Crosswords/`date +%b%Y`" -c "./nyt-cookies.txt"
+./rm-sync-pdf -u "https://www.nytimes.com/svc/crosswords/v2/puzzle/print/`date +%b%d%y`.pdf" -n "`date +'%b %d'`" -d "/Crosswords/`date +'%b %Y'`" -c "./nyt-cookies.txt"

@@ -1,9 +1,0 @@
-URL=https://www.nytimes.com/svc/crosswords/v2/puzzle/print/`date +%b%d%y`.pdf
-DIR=/Crosswords/`date +%b%Y`
-COOKIES=./nyt-cookies.txt
-NAME=`date +%b %d`
-
-ARG1=-u $URL
-ARG2=-n $NAME
-ARG3=-c $COOKIES
-ARG4=-d $DIR

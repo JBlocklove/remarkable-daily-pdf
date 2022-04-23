@@ -29,9 +29,8 @@ download_pdf() {
 	fi
 
 	if [[ $dir ]]; then
-		rm_mkdir $dir
+		rm_mkdir "$dir"
 		find_uuid $dir "dir" dir_uuid
-		echo "Dir UUID: $dir_uuid"
 	fi
 
 	create_doc_metadata "$pdf_uuid" "$dir_uuid" "$name" "$xochitl_loc"
