@@ -1,48 +1,65 @@
 #!/bin/sh
 
 # Takes in input (yes or no) defaults to yes, but can default to no with a parameter
-function getInputBoolean() {
+function get_input_boolean() {
+
+	local __resultvar=$3
+	local input
+
 	if [[ $2 == "no" ]]; then
-        read -p "${1} (Y/n) " in;
+        read -p "${1} (y/N) " input;
 	else
-        read -p "${1} (y/N) " in;
+        read -p "${1} (Y/n) " input;
 	fi
 
-    if [ "$in" == "y" ]; then
-            echo 1;
-    elif [ "$in" == "n" ]; then
-            echo 0;
-    else
+    if [ "$input" == "" ]; then
 		if [[ $2 == "no" ]]; then
-			echo 0;
+			input="n";
 		else
-			echo 1;
+			input="y";
 		fi
+    fi
+
+    if [[ "$__resultvar" ]]; then
+        eval $__resultvar="'$input'"
+    else
+        echo "$input"
     fi
 }
 
+function make_full_script() {
+	local filename="download-pdfs"
+	echo "#!/bin/sh" > $filename
+	for i do
+		echo "rm-sync-pdf "
+		echo -n $i >> $filename
+	done
+	chmod a+x $filename
+}
 
 wget -qO- https://github.com/JBlocklove/remarkable-daily-pdf/archive/main.zip | unzip -
 mv remarkable-daily-pdf-main remarkable-daily-pdf
 cd remarkable-daily-pdf
 
-auto=getInputBoolean "Do you want this to run automatically every day?" "no"
-if [[ $auto == y ]]; then
+get_input_boolean "Do you want this to run automatically every day?" "no" auto
+if [[ $auto == "y" ]]; then
 	echo "For the following: please not that you can insert shell commands into the strings by using backticks. This is useful for getting a given date that updates dynamically."
-	url=`read -p "What URL would you like to pull from every day? "`
-	name=`read -p "What name would you like to give the downloaded documents? "`
-	dir=`read -p "What directory would you like it to be in? Leave blank if you want it to save at the top level. "`
-	cookies=`read -p "If this needs a cookie file, what is the file's location? Leave blank if it is not needed. "`
+	read -p "What URL would you like to pull from every day? " url
+	read -p "What name would you like to give the downloaded documents? " name
+	read -p "What directory would you like it to be in? Leave blank if you want it to save at the top level. " dir
+	read -p "If this needs a cookie file, what is the file's location? Leave blank if it is not needed. " cookies
 
 	options="-u \"$url\" -n \"$name\""
+
 	if [[ $dir ]]; then
-		options+="-d \"$dir\""
+		options+=" -d \"$dir\""
 	fi
 	if [[ $cookies ]]; then
-		options+="-c \"$cookies\""
+		options+=" -c \"$cookies\""
 	fi
 
-	sed -i -e "s/OPTIONS/$options/" crossword.service
-	cp -v crossword.service crossword.timer /etc/systemd/system/
-	systemctl enable crossword.timer
+
+	make_full_script "$options"
+	cp -v download_pdf.service download_pdf.timer /etc/systemd/system/
+	systemctl enable download_pdf.timer
 fi
