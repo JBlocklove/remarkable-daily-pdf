@@ -2,9 +2,6 @@
 
 source ./functions
 
-month=`date +%b%Y`
-today=`date +%b%d%y`
-
 # Prints usage message
 function print_help() {
 	echo -e "Usage: rm-sync-pdf [OPTIONS]\n\tMandatory Options:\n\t\t-u: \t URL to pull pdf from.\n\t\t-n:\tName to give the downloaded pdf.\n\tOptional Options:\n\t\t-c:\tLocation of a cookie file. Necessary if authentication is required for the pdf.\n\t\t-d:\tDirectory on the remarkable to store the file under.\n\t\t\tIf any of the directories in the path don't exist they will be created.\n\t\t-h\tPrints this usage message and exits."
@@ -24,8 +21,10 @@ download_pdf() {
 			-O "$xochitl_loc/$pdf_uuid.pdf"
 	fi
 
+    echo "wget exit status: $?"
+
 	if [[ $? != "0" ]]; then
-		exit 1
+		exit "$?"
 	fi
 
 	if [[ $dir ]]; then
@@ -37,7 +36,9 @@ download_pdf() {
 	create_doc_content "$pdf_uuid" "$xochitl_loc"
 }
 
-while getopts 'u:c:n:d:h' flag; do
+restart=false
+
+while getopts 'u:c:n:d:hr' flag; do
 	case "${flag}" in
 		u)
 			url="${OPTARG}" ;;
@@ -49,6 +50,8 @@ while getopts 'u:c:n:d:h' flag; do
 			name="${OPTARG}" ;;
 		h)
 			print_help ;;
+        r)
+            restart=true ;;
 		*)
 			echo "$1 is not an option"
 			print_help ;;
@@ -68,9 +71,11 @@ if [[ $cookie_file ]]; then
 fi
 
 if [[ $pdf_uuid == "" ]]; then
-	echo "Downaloading file"
+	echo "Downloading file"
 	download_pdf
-	systemctl restart xochitl.service
+    if [[ $restart = true ]]; then
+	    systemctl restart xochitl.service
+    fi
 else
 	exit 0
 fi
