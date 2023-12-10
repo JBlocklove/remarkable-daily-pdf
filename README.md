@@ -4,6 +4,9 @@ This project allows you to automatically download daily PDFs directly on your Re
 
 ---
 
+## Currently only compatible with versions up to 2.15
+3.* is partially supported in the `dev` branch, but we can only use the built-in `wget` which lacks TLS support.
+
 ### Requirements
 This is designed to work with an unmodified Remarkable setup. You should know how to `ssh` into your Remarkable, but otherwise nothing should need to be installed.
 
