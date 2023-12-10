@@ -13,11 +13,11 @@ download_pdf() {
 
 	new_uuid pdf_uuid
 	if [[ $cookies ]]; then
-		./gnu-wget $url \
+		./wget $url \
 			--header="Cookie: $cookies" \
 			-O "$xochitl_loc/$pdf_uuid.pdf"
 	else
-		./gnu-wget $url \
+		./wget $url \
 			-O "$xochitl_loc/$pdf_uuid.pdf"
 	fi
 

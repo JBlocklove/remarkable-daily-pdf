@@ -13,14 +13,16 @@
     "lineHeight": -1,
     "margins": 100,
     "orientation": "portrait",
-    "originalPageCount": -1,
-    "pageCount": 1,
+    "originalPageCount": PAGE_COUNT,
+    "pageCount": PAGE_COUNT,
     "pages": [
         "PAGE_UUID"
     ],
     "redirectionPageMap": [
     ],
     "sizeInBytes": "SIZE_IN_BYTES",
+	"tags": [
+	],
     "textAlignment": "justify",
     "textScale": 1,
     "transform": {
