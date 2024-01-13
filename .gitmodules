@@ -1,0 +1,3 @@
+[submodule "remarkable-file-functions"]
+	path = remarkable-file-functions
+	url = git@github.com:JBlocklove/remarkable-file-functions.git

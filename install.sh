@@ -63,3 +63,9 @@ if [[ $auto == "y" ]]; then
 	cp -v download_pdf.service download_pdf.timer /etc/systemd/system/
 	systemctl enable download_pdf.timer
 fi
+
+get_input_boolean "Do you want a full version of wget? This is necessary for secure sites." "no" wget
+if [[ $wget == "y" ]]; then
+    wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1" --output-document "`pwd`/gnu-wget"
+    chmod 755 "`pwd`/gnu-wget"
+fi

@@ -1,6 +1,6 @@
 #!/bin/sh
 
-source ./functions
+source ./remarkable-file-functions/functions
 
 # Prints usage message
 function print_help() {
@@ -21,15 +21,16 @@ download_pdf() {
 			-O "$xochitl_loc/$pdf_uuid.pdf"
 	fi
 
-    echo "wget exit status: $?"
+	wget_exit=$?
+    echo "wget exit status: $wget_exit"
 
-	if [[ $? != "0" ]]; then
-		exit "$?"
+	if [[ $wget_exit != "0" ]]; then
+		exit "$wget_exit"
 	fi
 
 	if [[ $dir ]]; then
 		rm_mkdir "$dir"
-		find_uuid $dir "dir" dir_uuid
+		find_uuid $dir "CollectionType" dir_uuid
 	fi
 
 	create_doc_metadata "$pdf_uuid" "$dir_uuid" "$name" "$xochitl_loc"
@@ -63,7 +64,7 @@ if [[ $url == "" ]]; then
 fi
 
 if [[ $name ]]; then
-	find_uuid $name "doc" pdf_uuid
+	find_uuid $name "DocumentType" pdf_uuid
 fi
 
 if [[ $cookie_file ]]; then
