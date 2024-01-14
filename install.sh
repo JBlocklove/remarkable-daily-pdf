@@ -31,9 +31,10 @@ function make_full_script() {
 	local filename="download-pdfs"
 	echo "#!/bin/sh" > $filename
 	for i do
-		echo "./rm-sync-pdf " >> $filename
+		echo -n "./rm-sync-pdf " >> $filename
 		echo -n $i >> $filename
 	done
+	echo " -r" >> $filename
 	chmod a+x $filename
 }
 
@@ -60,8 +61,8 @@ if [[ $auto == "y" ]]; then
 
 
 	make_full_script "$options"
-	cp -v download_pdf.service download_pdf.timer /etc/systemd/system/
-	systemctl enable download_pdf.timer
+	cp -v download-pdfs.service download-pdfs.timer /etc/systemd/system/
+	systemctl enable download-pdfs.timer
 fi
 
 get_input_boolean "Do you want a full version of wget? This is necessary for secure sites." "no" wget

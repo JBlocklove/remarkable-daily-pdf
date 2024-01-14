@@ -11,17 +11,19 @@ function print_help() {
 download_pdf() {
 	#downloads the pdf requested by the -u flag
 
-	new_uuid pdf_uuid
-	if [[ $cookies ]]; then
-		./wget $url \
+	local pdf_uuid=$(new_uuid)
+
+	if [[ -f ./gnu-wget ]]; then
+		./gnu-wget $url \
 			--header="Cookie: $cookies" \
 			-O "$xochitl_loc/$pdf_uuid.pdf"
 	else
-		./wget $url \
+		wget $url \
+			--header="Cookie: $cookies" \
 			-O "$xochitl_loc/$pdf_uuid.pdf"
 	fi
 
-	wget_exit=$?
+	local wget_exit=$?
     echo "wget exit status: $wget_exit"
 
 	if [[ $wget_exit != "0" ]]; then
@@ -29,12 +31,11 @@ download_pdf() {
 	fi
 
 	if [[ $dir ]]; then
-		rm_mkdir "$dir"
-		find_uuid $dir "CollectionType" dir_uuid
+		local dir_uuid=$(rm_mkdir "$dir")
 	fi
 
 	create_doc_metadata "$pdf_uuid" "$dir_uuid" "$name" "$xochitl_loc"
-	create_doc_content "$pdf_uuid" "$xochitl_loc"
+	create_doc_content "$pdf_uuid" "1" "$xochitl_loc"
 }
 
 restart=false
