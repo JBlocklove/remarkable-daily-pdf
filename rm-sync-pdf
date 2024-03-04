@@ -14,13 +14,15 @@ download_pdf() {
 	local pdf_uuid=$(new_uuid)
 
 	if [[ -f ./gnu-wget ]]; then
-		./gnu-wget $url \
-			--header="Cookie: $cookies" \
-			-O "$xochitl_loc/$pdf_uuid.pdf"
+		./gnu-wget \
+			--load-cookies $cookie_file \
+			-O "$xochitl_loc/$pdf_uuid.pdf" \
+			$url
 	else
-		wget $url \
-			--header="Cookie: $cookies" \
-			-O "$xochitl_loc/$pdf_uuid.pdf"
+		wget \
+			--load-cookies $cookie_file \
+			-O "$xochitl_loc/$pdf_uuid.pdf" \
+			$url
 	fi
 
 	local wget_exit=$?
