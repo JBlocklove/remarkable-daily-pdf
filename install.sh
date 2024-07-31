@@ -1,5 +1,7 @@
 #!/bin/sh
 
+GNU_WGET="~/gnu-wget"
+
 # Takes in input (yes or no) defaults to yes, but can default to no with a parameter
 function get_input_boolean() {
 
@@ -38,12 +40,16 @@ function make_full_script() {
 	chmod a+x $filename
 }
 
-wget -qO- https://github.com/JBlocklove/remarkable-daily-pdf/archive/main.zip | unzip -
+wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1" --output-document "$GNU_WGET"
+chmod 755 "$GNU_WGET"
+
+$GNU_WGET -qO- https://github.com/JBlocklove/remarkable-daily-pdf/archive/main.zip | unzip -
 mv remarkable-daily-pdf-main remarkable-daily-pdf
 cd remarkable-daily-pdf
+echo "\$WGET=$GNU_WGET" >> ./env
 
-get_input_boolean "Do you want this to run automatically every day?" "no" auto
-if [[ $auto == "y" ]]; then
+get_input_boolean "Do you want to set up a daily download now?" "no" setup
+if [[ $setup == "y" ]]; then
 	echo "For the following: please not that you can insert shell commands into the strings by using backticks. This is useful for getting a given date that updates dynamically."
 	read -p "What URL would you like to pull from every day? " url
 	read -p "What name would you like to give the downloaded documents? " name
@@ -61,12 +67,15 @@ if [[ $auto == "y" ]]; then
 
 
 	make_full_script "$options"
+fi
+
+get_input_boolean "Do you want this to run automatically every day?" "no" auto
+if [[ $auto == "y" ]]; then
 	cp -v download-pdfs.service download-pdfs.timer /etc/systemd/system/
 	systemctl enable download-pdfs.timer
 fi
 
-get_input_boolean "Do you want a full version of wget? This is necessary for secure sites." "no" wget
-if [[ $wget == "y" ]]; then
-    wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1" --output-document "`pwd`/gnu-wget"
-    chmod 755 "`pwd`/gnu-wget"
+get_input_boolean "Do you want to do an initial download now?" "no" init
+if [[ $init == "y" ]]; then
+	systemctl start download-pdfs.service
 fi

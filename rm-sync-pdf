@@ -1,5 +1,6 @@
 #!/bin/sh
 
+source ./env
 source ./remarkable-file-functions/functions
 
 # Prints usage message
@@ -13,17 +14,22 @@ download_pdf() {
 
 	local pdf_uuid=$(new_uuid)
 
-	if [[ -f ./gnu-wget ]]; then
-		./gnu-wget \
-			--load-cookies $cookie_file \
-			-O "$xochitl_loc/$pdf_uuid.pdf" \
-			$url
-	else
-		wget \
-			--load-cookies $cookie_file \
-			-O "$xochitl_loc/$pdf_uuid.pdf" \
-			$url
+	if [[ -z ${WGET} ]]; then
+		WGET=$(which wget)
 	fi
+
+	if [[ -z ${cookie_file} ]]; then
+		$WGET \
+		-O "$xochitl_loc/$pdf_uuid.pdf" \
+		$url
+	else
+		$WGET \
+		--load-cookies $cookie_file \
+		-O "$xochitl_loc/$pdf_uuid.pdf" \
+		$url
+
+	fi
+
 
 	local wget_exit=$?
     echo "wget exit status: $wget_exit"
