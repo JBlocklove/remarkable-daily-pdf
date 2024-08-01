@@ -1,6 +1,7 @@
 #!/bin/sh
 
-GNU_WGET="$HOME/.local/share/remarkable-daily-pdf/gnu-wget"
+INSTALL_DIR="$HOME/.local/share/remarkable-daily-pdf"
+GNU_WGET="$INSTALL_DIR/gnu-wget"
 
 # Takes in input (yes or no) defaults to yes, but can default to no with a parameter
 function get_input_boolean() {
@@ -48,10 +49,14 @@ function wget-git-recursive() {
 
 	$GNU_WGET -qO- "$top_repo/archive/$branch.tar.gz" | tar -xz
 	if [[ -d $path ]]; then
-		rm -rf $path
+		mv $path ${path}_tmp
+		mv ${repo_name}-$branch $path
+		mv ${path}_tmp/* $path
+		rm -rf ${path}_tmp
+	else
+		mv ${repo_name}-$branch $path
+		cd $path
 	fi
-	mv ${repo_name}-$branch $path
-	cd $path
 
 	if [[ -f .gitmodules ]]; then
 		local submodules
@@ -70,16 +75,18 @@ function wget-git-recursive() {
 				fi
 			done
 			submodule_url=${submodule_url%.git}
-			wget-git-recursive $submodule_url $submodule_path $submodule_branch
+			wget_git_recursive $submodule_url $submodule_path $submodule_branch
 		done
 	fi
 
 }
 
+mkdir -p "$INSTALL_DIR"
+
 wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1" --output-document "$GNU_WGET"
 chmod 755 "$GNU_WGET"
 
-wget-git-recursive https://github.com/JBlocklove/remarkable-daily-pdf $HOME/.local/share/remarkable-daily-pdf dev
+wget_git_recursive "https://github.com/JBlocklove/remarkable-daily-pdf" "$INSTALL_DIR" "dev"
 
 get_input_boolean "Do you want to set up a daily download now?" "no" setup
 if [[ $setup == "y" ]]; then
