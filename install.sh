@@ -1,6 +1,6 @@
 #!/bin/sh
 
-GNU_WGET="~/gnu-wget"
+GNU_WGET="$HOME/.local/share/remarkable-daily-pdf/gnu-wget"
 
 # Takes in input (yes or no) defaults to yes, but can default to no with a parameter
 function get_input_boolean() {
@@ -40,13 +40,46 @@ function make_full_script() {
 	chmod a+x $filename
 }
 
+function wget-git-recursive() {
+	local top_repo="$1"
+	local repo_name=$(basename $top_repo)
+	local path="$2"
+	local branch="${3:-main}"
+
+	$GNU_WGET -qO- "$top_repo/archive/$branch.tar.gz" | tar -xz
+	if [[ -d $path ]]; then
+		rm -rf $path
+	fi
+	mv ${repo_name}-$branch $path
+	cd $path
+
+	if [[ -f .gitmodules ]]; then
+		local submodules
+		local parsed_lines
+		readarray -t submodules <<< "$(awk '/\[submodule/,1' .gitmodules)"
+		readarray -t parsed_lines <<< "$(awk '/\[/{prefix=$0; next} $1{print prefix $0}' .gitmodules)"
+
+		for submodule in "${submodules[@]}"; do
+			for line in "${parsed_lines[@]}"; do
+				if [[ $line =~ $submodule*path ]]; then
+					local submodule_path=$(echo $line | awk -F'= ' '{print $2}')
+				elif [[ $line =~ $submodule*url ]]; then
+					local submodule_url=$(echo $line | awk -F'= ' '{print $2}')
+				elif [[ $line =~ $submodule*branch ]]; then
+					local submodule_branch=$(echo $line | awk -F'= ' '{print $2}')
+				fi
+			done
+			submodule_url=${submodule_url%.git}
+			wget-git-recursive $submodule_url $submodule_path $submodule_branch
+		done
+	fi
+
+}
+
 wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1" --output-document "$GNU_WGET"
 chmod 755 "$GNU_WGET"
 
-$GNU_WGET -qO- https://github.com/JBlocklove/remarkable-daily-pdf/archive/main.zip | unzip -
-mv remarkable-daily-pdf-main remarkable-daily-pdf
-cd remarkable-daily-pdf
-echo "\$WGET=$GNU_WGET" >> ./env
+wget-git-recursive https://github.com/JBlocklove/remarkable-daily-pdf $HOME/.local/share/remarkable-daily-pdf dev
 
 get_input_boolean "Do you want to set up a daily download now?" "no" setup
 if [[ $setup == "y" ]]; then

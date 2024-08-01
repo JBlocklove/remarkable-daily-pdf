@@ -1,7 +1,8 @@
 #!/bin/sh
 
-source ./env
 source ./remarkable-file-functions/functions
+
+WGET="$HOME/.local/share/remarkable-daily-pdf/gnu-wget"
 
 # Prints usage message
 function print_help() {
