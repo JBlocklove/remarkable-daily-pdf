@@ -31,7 +31,7 @@ function get_input_boolean() {
 }
 
 function make_full_script() {
-	local filename="download-pdfs"
+	local filename="$INSTALL_DIR/download-pdfs"
 	echo "#!/bin/sh" > $filename
 	for i do
 		echo -n "./rm-sync-pdf " >> $filename
@@ -41,7 +41,7 @@ function make_full_script() {
 	chmod a+x $filename
 }
 
-function wget-git-recursive() {
+function wget_git_recursive() {
 	local top_repo="$1"
 	local repo_name=$(basename $top_repo)
 	local path="$2"
@@ -111,7 +111,7 @@ fi
 
 get_input_boolean "Do you want this to run automatically every day?" "no" auto
 if [[ $auto == "y" ]]; then
-	cp -v download-pdfs.service download-pdfs.timer /etc/systemd/system/
+	cp -v $INSTALL_DIR/download-pdfs.service $INSTALL_DIR/download-pdfs.timer /etc/systemd/system/
 	systemctl enable download-pdfs.timer
 fi
 

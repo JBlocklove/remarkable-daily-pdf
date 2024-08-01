@@ -2,8 +2,8 @@
 Description=Run script to grab a daily pdf
 
 [Service]
-WorkingDirectory=/home/root/remarkable-daily-pdf
+WorkingDirectory=/home/root/.local/share/remarkable-daily-pdf
 Type=exec
-ExecStart=/home/root/remarkable-daily-pdf/download-pdfs
+ExecStart=/home/root/.local/share/remarkable-daily-pdf/download-pdfs
 Restart=on-failure
 RestartSec=1min
