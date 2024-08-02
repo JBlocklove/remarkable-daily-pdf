@@ -114,8 +114,8 @@ From there, make an executable file called `download-pdfs` in your installed `re
 
 ### To Do
  - [ ] Create a list of supported sources for easier use, especially focusing on free ones
- - [ ] Figure out the NYT pdf naming structure for the non-newspaper print versions so you can get the puzzle without the previous day's answers
- - [ ] Improve this documentation
+ - [ ] Create a script that will add additional pdf downloads after installation
+ - [ ] Create an uninstall script/function
 
 ---
 ### Contributions
