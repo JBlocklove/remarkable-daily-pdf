@@ -1,6 +1,6 @@
 #!/bin/sh
 
-INSTALL_DIR="$HOME/.local/share/remarkable-daily-pdf"
+INSTALL_DIR="$HOME/.local/share/daily-pdf"
 GNU_WGET="$INSTALL_DIR/gnu-wget"
 
 # Takes in input (yes or no) defaults to yes, but can default to no with a parameter
@@ -88,8 +88,9 @@ wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1" --output-document 
 chmod 755 "$GNU_WGET"
 
 wget_git_recursive "https://github.com/JBlocklove/remarkable-daily-pdf" "$INSTALL_DIR" "dev"
+chmod +x $INSTALL_DIR/rm-sync-pdf
 
-get_input_boolean "Do you want to set up a daily download now?" "no" setup
+get_input_boolean "Do you want to set up a pdf download now?" "no" setup
 if [[ $setup == "y" ]]; then
 	echo "For the following: please not that you can insert shell commands into the strings by using backticks. This is useful for getting a given date that updates dynamically."
 	read -p "What URL would you like to pull from every day? " url
