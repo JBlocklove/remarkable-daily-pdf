@@ -47,16 +47,17 @@ function wget_git_recursive() {
 	local path="$2"
 	local branch="${3:-main}"
 
-	$GNU_WGET -qO- "$top_repo/archive/$branch.tar.gz" | tar -xz
-	if [[ -d $path ]]; then
+	$GNU_WGET -qO- "$top_repo/archive/$branch.zip" | unzip -
+	if [[ -n "$(ls -A $path)" ]]; then ##checks if destionation folder isn't empty. If there are files, they will remain in the final directory
 		mv $path ${path}_tmp
 		mv ${repo_name}-$branch $path
 		mv ${path}_tmp/* $path
 		rm -rf ${path}_tmp
 	else
+		rm -rf $path
 		mv ${repo_name}-$branch $path
-		cd $path
 	fi
+	cd $path
 
 	if [[ -f .gitmodules ]]; then
 		local submodules
