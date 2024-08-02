@@ -67,15 +67,15 @@ This is the folder path you'd like to download pdfs to.
 This makes a `Crosswords` folder in the top-level, followed by a year folder, followed by a numbered month folder. For example `/Crosswords/2024/08 - Aug`
 
 - **Cookies (Optional):**
-**If your download requires cookies, follow Step 0 first**
+*If your download requires cookies, follow Step 0 first*
 ```
 If this needs a cookie file, what is the file's location? Leave blank if it is not needed.
 ```
 
-This should just point to the necessary cookie file if your download requires authentication.
+This should just point to the necessary cookie file if your download requires authentication. You should use absolute paths for the automatic download.
 
 ```
-$HOME/cookies/nyt-cookies.txt
+/home/root/cookies/nyt-cookies.txt
 ```
 
 #### Step 3

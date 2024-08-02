@@ -2,6 +2,8 @@
 Description=Run script to grab a daily pdf
 
 [Service]
+User=root
+Environment="HOME=/home/root"
 WorkingDirectory=/home/root/.local/share/daily-pdf
 Type=exec
 ExecStart=/home/root/.local/share/daily-pdf/download-pdfs
