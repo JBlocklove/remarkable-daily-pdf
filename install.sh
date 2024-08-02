@@ -87,7 +87,7 @@ mkdir -p "$INSTALL_DIR"
 wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1" --output-document "$GNU_WGET"
 chmod 755 "$GNU_WGET"
 
-wget_git_recursive "https://github.com/JBlocklove/remarkable-daily-pdf" "$INSTALL_DIR" "dev"
+wget_git_recursive "https://github.com/JBlocklove/remarkable-daily-pdf" "$INSTALL_DIR"
 chmod +x $INSTALL_DIR/rm-sync-pdf
 
 get_input_boolean "Do you want to set up a pdf download now?" "no" setup
@@ -109,15 +109,16 @@ if [[ $setup == "y" ]]; then
 
 
 	make_full_script "$options"
+
+	get_input_boolean "Do you want this to run automatically every day? " "no" auto
+	if [[ $auto == "y" ]]; then
+		cp -v $INSTALL_DIR/download-pdfs.service $INSTALL_DIR/download-pdfs.timer /etc/systemd/system/
+		systemctl enable download-pdfs.timer
+	fi
+
+	get_input_boolean "Do you want to do an initial download now? " "no" init
+	if [[ $init == "y" ]]; then
+		systemctl start download-pdfs.service
+	fi
 fi
 
-get_input_boolean "Do you want this to run automatically every day?" "no" auto
-if [[ $auto == "y" ]]; then
-	cp -v $INSTALL_DIR/download-pdfs.service $INSTALL_DIR/download-pdfs.timer /etc/systemd/system/
-	systemctl enable download-pdfs.timer
-fi
-
-get_input_boolean "Do you want to do an initial download now?" "no" init
-if [[ $init == "y" ]]; then
-	systemctl start download-pdfs.service
-fi
