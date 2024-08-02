@@ -31,7 +31,7 @@ If you hit `enter` or `n` the script will exit and you will need to manually set
 
 Entering `y` will lead to the following prompts. The New York Times crossword will be used as an example.
 
-##### URL:
+- **URL:**
 ```
 What URL would you like to pull from every day?
 ```
@@ -41,20 +41,20 @@ https://www.nytimes.com/svc/crosswords/v2/puzzle/print/`date +%b%d%y`.pdf
 ```
 The embedded `date` command changes the date to the required format for each day.
 
-##### Document Name:
+- **Document Name:**
 ```
 What name would you like to give the downloaded documents?
 ```
 This should be set to something that changes every day, once again using something like the `date` command.
 
-**NOTE: Currently the scripts for adding files will ignore the file move if that file already exists. In the future there can be options for overwriting or duplicating files, if requested. If this is something you need, please open an issue.**
+*NOTE: Currently the scripts for adding files will ignore the file move if that file already exists. In the future there can be options for overwriting or duplicating files, if requested. If this is something you need, please open an issue.*
 
 ```
 `date +'%d - %a'`
 ```
 This `date` command will resolve to the day of the month followed by day of the week. For example `02 - Fri`
 
-##### Location (Optional)
+- **Location (Optional):**
 ```
 What directory would you like it to be in? Leave blank if you want it to save at the top level.
 ```
@@ -66,7 +66,7 @@ This is the folder path you'd like to download pdfs to.
 
 This makes a `Crosswords` folder in the top-level, followed by a year folder, followed by a numbered month folder. For example `/Crosswords/2024/08 - Aug`
 
-##### Cookies (Optional)
+- **Cookies (Optional):**
 **If your download requires cookies, follow Step 0 first**
 ```
 If this needs a cookie file, what is the file's location? Leave blank if it is not needed.
