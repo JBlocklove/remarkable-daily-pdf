@@ -118,5 +118,25 @@ From there, make an executable file called `download-pdfs` in your installed `re
  - [ ] Create an uninstall script/function
 
 ---
+
 ### Contributions
 Any ideas are welcome and greatly appreciated! Shell scripting isn't my main thing so I'm sure there are a lot of potential improvements to this. If any problems or questions arise, please feel free to make an issue and I'll do my best to help resolve it!
+
+---
+
+## Extra Scripts
+I've made/am making some extra scripts for myself to use with this tool, so I might as well share them here in case anyone else wants to use them.
+
+### download-nyt-crossword-dates
+This will download the NYT crossword based on a range of dates. It uses the same directory structure as the example setup in the installation instructions.
+
+#### Usage:
+```
+download_date_range <start_date> [end_date]
+```
+`start_date` is required. It's the start of the date range you wish to download, or the only date if you just want a single day.
+- Must be in the format from `date +'%F'`, for example `2024-08-02`.
+
+`end_date` is optional. It's the end of the date range you wish to download.
+- Must be in the format from `date +'%F'`, for example `2024-08-02`.
+
