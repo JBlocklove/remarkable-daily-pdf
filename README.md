@@ -132,7 +132,7 @@ This will download the NYT crossword based on a range of dates. It uses the same
 
 #### Usage:
 ```
-download_date_range <start_date> [end_date]
+./download-nyt-crossword-dates <start_date> [end_date]
 ```
 `start_date` is required. It's the start of the date range you wish to download, or the only date if you just want a single day.
 - Must be in the format from `date +'%F'`, for example `2024-08-02`.
