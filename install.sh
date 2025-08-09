@@ -84,7 +84,7 @@ function wget_git_recursive() {
 
 mkdir -p "$INSTALL_DIR"
 
-wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-1" --output-document "$GNU_WGET"
+wget -q "http://toltec-dev.org/thirdparty/bin/wget-v1.21.1-2" --output-document "$GNU_WGET"
 chmod 755 "$GNU_WGET"
 
 wget_git_recursive "https://github.com/JBlocklove/remarkable-daily-pdf" "$INSTALL_DIR"
