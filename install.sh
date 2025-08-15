@@ -114,7 +114,7 @@ if [[ $setup == "y" ]]; then
 	if [[ $auto == "y" ]]; then
 		cp -v $INSTALL_DIR/download-pdfs.service $INSTALL_DIR/download-pdfs.timer /etc/systemd/system/
 		systemctl enable download-pdfs.timer
-		systemctl restart daemon-reload ## Reload all daemons so systemctl knows they exist
+		systemctl daemon-reload ## Reload all daemons so systemctl knows they exist
 	fi
 
 	get_input_boolean "Do you want to do an initial download now? " "no" init
